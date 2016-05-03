@@ -1,0 +1,14 @@
+table {
+  border-spacing: 0;
+  width:100%;
+}
+
+td + td {
+  border-left:1px solid #eee;
+}
+
+td {
+  border-bottom:1px solid #eee;
+  background: #e3e3e3;
+  padding: 10px 25px;
+}

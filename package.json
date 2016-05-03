@@ -1,0 +1,20 @@
+{
+  "name": "sports_data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.14",
+    "path": "^0.12.7",
+    "request": "^2.72.0",
+    "scrape-js": "0.0.0",
+    "scrapejs": "^1.0.4"
+  }
+}
