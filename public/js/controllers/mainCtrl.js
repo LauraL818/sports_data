@@ -119,7 +119,7 @@
                               .append("text")
                               .attr("class", "tooltip")
                               .style("opacity", 0)
-                              .style("text-anchor","end")
+                              .style("text-anchor","start")
                               .attr("startOffset","100%")
                               .attr("fill", "black")
 
@@ -172,7 +172,6 @@
                           .attr("y", yScale(d[2]))
 
                   })
-
 
                         svg.append("text")
                             .attr("class", "x label")
