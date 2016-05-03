@@ -10,6 +10,8 @@
     <script src="./app.js"></script>
     <script src="./js/controllers/mainCtrl.js"></script>
     <script src="./js/factories/sportsService.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
   </head>
   <body ng-app="sports">
 
@@ -22,7 +24,7 @@
               <thead>
                 <tr>
                   <td>
-                    Player
+                    <span ng-click="main.getNames()"> Player </span>
                   </td>
                   <td>
                     G
@@ -71,7 +73,7 @@
               <tbody>
                 <tr ng-repeat="player in main.players">
                   <td>
-                    {{player.name}}
+                    <span ng-click="main.names(player.name)">{{player.name}}</span>
                   </td>
                   <td>
                     {{player.games}}
@@ -118,9 +120,10 @@
                 </tr>
               </tbody>
             </table>
-
           </div>
         </div> <!--END .row -->
+        <profile-chart id="scatter" names={{main.names}} hits={{main.hits}} walks={{main.bb}} homers={{main.homers}} ng-if="main.names"></profile-chart>
+
       </div> <!--END .container -->
   </body>
   <script>
