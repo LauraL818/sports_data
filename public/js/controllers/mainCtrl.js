@@ -8,45 +8,48 @@
     var vm = this
     vm.title = 'Sports'
 
-    sportsService.index().success(function(results){
-      vm.players = results
-      vm.names = []
-      vm.games = []
-      vm.ab = []
-      vm.runs = []
-      vm.hits = []
-      vm.doubles = []
-      vm.triples = []
-      vm.homers = []
-      vm.rbis = []
-      vm.bb = []
-      vm.ibb = []
-      vm.so = []
-      vm.avg = []
-      vm.obp = []
-      vm.slg = []
-      for(var i = 0; i < results.length; i++){
-        vm.names.push(results[i].name)
-        vm.games.push(results[i].games)
-        vm.ab.push(results[i].ab)
-        vm.runs.push(results[i].runs)
-        vm.hits.push(results[i].hits)
-        vm.doubles.push(results[i].doubles)
-        vm.triples.push(results[i].triples)
-        vm.homers.push(results[i].homers)
-        vm.rbis.push(results[i].rbis)
-        vm.bb.push(results[i].bb)
-        vm.ibb.push(results[i].ibb)
-        vm.so.push(results[i].so)
-        vm.avg.push(results[i].avg)
-        vm.obp.push(results[i].obp)
-        vm.slg.push(results[i].slg)
-      }
-    })
-
-    vm.getNames = function(){
-      console.log(vm.names)
+    vm.getTeams = function(){
+      sportsService.index().success(function(results){
+        vm.players = results
+        vm.names = []
+        vm.games = []
+        vm.ab = []
+        vm.runs = []
+        vm.hits = []
+        vm.doubles = []
+        vm.triples = []
+        vm.homers = []
+        vm.rbis = []
+        vm.bb = []
+        vm.ibb = []
+        vm.so = []
+        vm.avg = []
+        vm.obp = []
+        vm.slg = []
+        for(var i = 0; i < results.length; i++){
+          vm.names.push(results[i].name)
+          vm.games.push(results[i].games)
+          vm.ab.push(results[i].ab)
+          vm.runs.push(results[i].runs)
+          vm.hits.push(results[i].hits)
+          vm.doubles.push(results[i].doubles)
+          vm.triples.push(results[i].triples)
+          vm.homers.push(results[i].homers)
+          vm.rbis.push(results[i].rbis)
+          vm.bb.push(results[i].bb)
+          vm.ibb.push(results[i].ibb)
+          vm.so.push(results[i].so)
+          vm.avg.push(results[i].avg)
+          vm.obp.push(results[i].obp)
+          vm.slg.push(results[i].slg)
+        }
+      })
     }
+
+
+  //   vm.getNames = function(){
+  //     console.log(vm.names)
+  //   }
   }
 
     function profileChart(){
@@ -108,8 +111,6 @@
                     var h = 500
                     var padding = 60
 
-
-
                     var svg = d3.select("#scatter")
                                 .append("svg")
                                 .attr("width", w)
@@ -163,7 +164,7 @@
                       .style("opacity", 1)
 
                       circles.on("click", function(d) {
-                      circles.style("opacity", .5)
+                      circles.style("opacity", .2)
                       tooltip.transition()
                           .duration(200)
                           .style("opacity", 1);
@@ -172,6 +173,13 @@
                           .attr("y", yScale(d[2]))
 
                   })
+                  .on("mouseout", function(d) {
+                           circles.style("opacity", 1)
+                           tooltip.transition()
+                               .duration(100)
+                               .style("opacity", 0);
+                       })
+
 
                         svg.append("text")
                             .attr("class", "x label")
