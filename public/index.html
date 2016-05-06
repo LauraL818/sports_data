@@ -5,126 +5,27 @@
     <title>Sports Data</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/table.css">
+
+    <!-- jQUERY -->
     <script src="jquery-2.2.3.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+
+    <!-- ANGULAR -->
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
     <script src="./js/libs/angular-ui-router.js"></script>
+
+
+    <!-- APP -->
     <script src="./app.js"></script>
     <script src="./js/controllers/mainCtrl.js"></script>
     <script src="./js/factories/sportsService.js"></script>
+
+    <!-- D3 -->
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
   </head>
   <body ng-app="sports">
       <div ui-view></div>
-      <!-- <div class="container" ng-controller="MainController as main" ng-init="main.getTeams()">
-        <div class="row">
-          <div class="col-xs-6">
-            <h1>{{main.title}}</h1>
-            <table>
-              <thead>
-                <tr>
-                  <td>
-                    <span ng-click="main.getNames()"> Player </span>
-                  </td>
-                  <td>
-                    G
-                  </td>
-                  <td>
-                    AB
-                  </td>
-                  <td>
-                    R
-                  </td>
-                  <td>
-                    H
-                  </td>
-                  <td>
-                    2B
-                  </td>
-                  <td>
-                    3B
-                  </td>
-                  <td>
-                    HR
-                  </td>
-                  <td>
-                    RBI
-                  </td>
-                  <td>
-                    BB
-                  </td>
-                  <td>
-                    IBB
-                  </td>
-                  <td>
-                    SO
-                  </td>
-                  <td>
-                    AVG
-                  </td>
-                  <td>
-                    OBP
-                  </td>
-                  <td>
-                    SLG
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="player in main.players">
-                  <td>
-                    <span ng-click="main.names(player.name)">{{player.name}}</span>
-                  </td>
-                  <td>
-                    {{player.games}}
-                  </td>
-                  <td>
-                    {{player.ab}}
-                  </td>
-                  <td>
-                    {{player.runs}}
-                  </td>
-                  <td>
-                    {{player.hits}}
-                  </td>
-                  <td>
-                    {{player.doubles}}
-                  </td>
-                  <td>
-                    {{player.triples}}
-                  </td>
-                  <td>
-                    {{player.homers}}
-                  </td>
-                  <td>
-                    {{player.rbis}}
-                  </td>
-                  <td>
-                    {{player.bb}}
-                  </td>
-                  <td>
-                    {{player.ibb}}
-                  </td>
-                  <td>
-                    {{player.so}}
-                  </td>
-                  <td>
-                    .{{player.avg}}
-                  </td>
-                  <td>
-                    .{{player.obp}}
-                  </td>
-                  <td>
-                    .{{player.slg}}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <profile-chart id="scatter" names={{main.names}} hits={{main.hits}} walks={{main.bb}} homers={{main.homers}} ng-if="main.names"></profile-chart> -->
 
-      </div>
   </body>
   <script>
 
