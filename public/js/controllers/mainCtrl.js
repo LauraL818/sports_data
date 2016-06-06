@@ -224,7 +224,7 @@
 
     function attendanceChart(){
         var directive = {
-          restrict:'EA',
+          restrict:'EAC',
             scope: {
               attendances: '@',
               years: '@'
@@ -252,6 +252,7 @@
                     var dataset = []
                     for(var i = 0; i < attendances.length; i ++){
                       var arr = []
+                      arr.push(years[i])
                       arr.push(attendances[i])
                       dataset.push(arr)
                     }
@@ -260,107 +261,59 @@
 
 
                     // ///////////////////////// END SCATTER PLOT //////////////////////
-                    //
+
                     // //////////////////////// START D3 SCATTER PLOT /////////////////////
-                    var w = 1200
-                    var h = 500
-                    var padding = 60
 
-                    var svg = d3.select("#scatter")
-                                .append("svg")
-                                .attr("width", w)
-                                .attr("height", h)
+                    var vis = d3.select('#attendances')
+                      width = 1000,
+                      height = 500,
+                      margins = {
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 50
+                      },
+                      xRange = d3.scale.linear().range([margins.left, width - margins.right]).domain([d3.min(dataset, function(d) {
+                        return d[0];
+                      }), d3.max(dataset, function(d) {
+                        return d[0];
+                      })]),
+                      yRange = d3.scale.linear().range([height - margins.top, margins.bottom]).domain(['0', d3.max(dataset, function(d) {
+                        return d[1];
+                      })]),
+                      xAxis = d3.svg.axis()
+                        .scale(xRange)
+                        .tickSize(5)
+                        .tickFormat(d3.format("d")),
+                      yAxis = d3.svg.axis()
+                        .scale(yRange)
+                        .tickSize(5)
+                        .orient('left')
 
-                    var tooltip = d3.select("svg")
-                              .append("text")
-                              .attr("class", "tooltip")
-                              .style("opacity", 0)
-                              .style("text-anchor","start")
-                              .attr("startOffset","100%")
-                              .attr("fill", "black")
+                    vis.append('svg:g')
+                      .attr('class', 'x axis')
+                      .attr('transform', 'translate(0,' + (height - margins.bottom) + ')')
+                      .call(xAxis);
 
-                    var rScale = d3.scale.linear()
-                                 .domain([0, d3.max(dataset, function(d) { return d[2] })])
-                                 .range([2, 20]);
+                    vis.append('svg:g')
+                      .attr('class', 'y axis')
+                      .attr('transform', 'translate(' + (margins.left) + ',0)')
+                      .call(yAxis);
 
-                    var xScale = d3.scale.linear()
-                                  .domain([0, d3.max(dataset, function(d){ return d[1] })])
-                                  .range([padding, w - padding * 2])
+                    var lineFunc = d3.svg.line()
+                          .x(function(d) {
+                            return xRange(d[0]);
+                          })
+                          .y(function(d) {
+                            return yRange(d[1]);
+                          })
+                          .interpolate('linear');
 
-                    var yScale = d3.scale.linear()
-                                  .domain([0, d3.max(dataset, function(d){ return d[0] })])
-                                  .range([h - padding, padding])
-
-                    var xAxis = d3.svg.axis()
-                        .scale(xScale)
-                        .orient("bottom")
-                        .ticks(8)
-
-                    var yAxis = d3.svg.axis()
-                        .scale(yScale)
-                        .orient("left")
-                        .ticks(8)
-
-
-                    var circles = svg.selectAll("circle")
-                      .data(dataset)
-                      .enter()
-                      .append("circle")
-                      .attr("cx", function(d){
-                        return xScale(d[1])
-                      })
-                      .attr("cy", function(d){
-                        return yScale(d[2])
-                      })
-                      .attr("r", function(d){
-                        return rScale(d[0])
-                      })
-                      .attr("fill", "#E8A8A8")
-                      .style("opacity", 1)
-
-                      circles.on("click", function(d) {
-                      circles.style("opacity", .2)
-                      tooltip.transition()
-                          .duration(200)
-                          .style("opacity", 1);
-                      tooltip.text(d[3])
-                          .attr("x", xScale(d[1]))
-                          .attr("y", yScale(d[2]))
-
-                  })
-                  .on("mouseout", function(d) {
-                           circles.style("opacity", 1)
-                           tooltip.transition()
-                               .duration(100)
-                               .style("opacity", 0);
-                       })
-
-
-                        svg.append("text")
-                            .attr("class", "x label")
-                            .attr("text-anchor", "end")
-                            .attr("x", w/2)
-                            .attr("y", h - 6)
-                            .text("Hits")
-
-                        svg.append("text")
-                           .attr("transform", "rotate(-90)")
-                           .attr("y", 0)
-                           .attr("x",0 - (h / 2))
-                           .attr("dy", "1em")
-                           .style("text-anchor", "middle")
-                           .text("Homers");
-
-                         svg.append("g")
-                           .attr("class", "axis")
-                           .attr("transform", "translate(0," + (h - padding) + ")")
-                           .call(xAxis)
-
-                         svg.append("g")
-                             .attr("class", "axis")
-                             .attr("transform", "translate(" + padding + ",0)")
-                             .call(yAxis)
-
+                    vis.append('svg:path')
+                      .attr('d', lineFunc(dataset))
+                      .attr('stroke', 'blue')
+                      .attr('stroke-width', 2)
+                      .attr('fill', 'none');
               })
 
             } // End link
