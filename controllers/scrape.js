@@ -37,21 +37,24 @@ module.exports = {
           }
         })
         res.json(playerStats)
-        // console.log(playerStats)
     })
   },
   getAttendance: function(req, res, callback){
-    scrape('http://www.baseball-almanac.com/teams/rockattn.shtml', ['p'], function (error, data) {
+    scrape('http://www.baseball-almanac.com/teams/rockattn.shtml', ['font'], function (error, data) {
         if(error) throw error;
         var attendanceStats = []
+        var year = 1993
+        var years = []
         data.forEach(function (element, idx) {
-
-            if(idx >= 41 && idx <= 58) {
-              var attendance = element.children().text()
+          // console.log(idx + "" + element)
+            if(idx >= 54 && idx <= 75) {
+              var attendance = element.text()
               var attendanceNumber = attendance.replace(",", "")
               attendanceStats.push({
-                attendance: parseInt(attendanceNumber)
+                attendance: parseInt(attendanceNumber),
+                year : year
               })
+                year += 1
           }
         })
         res.json(attendanceStats)

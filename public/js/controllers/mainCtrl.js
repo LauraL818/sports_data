@@ -1,6 +1,7 @@
   angular.module('sports')
     .controller('MainController', MainController)
     .directive('profileChart', profileChart)
+    .directive('attendanceChart', attendanceChart)
 
   MainController.$inject = ['sportsService']
 
@@ -48,14 +49,15 @@
 
     vm.getAttendance = function(){
       sportsService.attendance().success(function(results){
-        console.log(results)
+        vm.attendances = []
+        vm.years = []
+        for(var i = 0; i < results.length; i ++){
+          vm.attendances.push(results[i].attendance)
+          vm.years.push(results[i].year)
+        }
       })
     }
 
-
-  //   vm.getNames = function(){
-  //     console.log(vm.names)
-  //   }
   }
 
     function profileChart(){
@@ -108,6 +110,153 @@
                       arr.push(names[i])
                       dataset.push(arr)
                     }
+
+
+                    // ///////////////////////// END SCATTER PLOT //////////////////////
+                    //
+                    // //////////////////////// START D3 SCATTER PLOT /////////////////////
+                    var w = 1200
+                    var h = 500
+                    var padding = 60
+
+                    var svg = d3.select("#scatter")
+                                .append("svg")
+                                .attr("width", w)
+                                .attr("height", h)
+
+                    var tooltip = d3.select("svg")
+                              .append("text")
+                              .attr("class", "tooltip")
+                              .style("opacity", 0)
+                              .style("text-anchor","start")
+                              .attr("startOffset","100%")
+                              .attr("fill", "black")
+
+                    var rScale = d3.scale.linear()
+                                 .domain([0, d3.max(dataset, function(d) { return d[2] })])
+                                 .range([2, 20]);
+
+                    var xScale = d3.scale.linear()
+                                  .domain([0, d3.max(dataset, function(d){ return d[1] })])
+                                  .range([padding, w - padding * 2])
+
+                    var yScale = d3.scale.linear()
+                                  .domain([0, d3.max(dataset, function(d){ return d[0] })])
+                                  .range([h - padding, padding])
+
+                    var xAxis = d3.svg.axis()
+                        .scale(xScale)
+                        .orient("bottom")
+                        .ticks(8)
+
+                    var yAxis = d3.svg.axis()
+                        .scale(yScale)
+                        .orient("left")
+                        .ticks(8)
+
+
+                    var circles = svg.selectAll("circle")
+                      .data(dataset)
+                      .enter()
+                      .append("circle")
+                      .attr("cx", function(d){
+                        return xScale(d[1])
+                      })
+                      .attr("cy", function(d){
+                        return yScale(d[2])
+                      })
+                      .attr("r", function(d){
+                        return rScale(d[0])
+                      })
+                      .attr("fill", "#E8A8A8")
+                      .style("opacity", 1)
+
+                      circles.on("click", function(d) {
+                      circles.style("opacity", .2)
+                      tooltip.transition()
+                          .duration(200)
+                          .style("opacity", 1);
+                      tooltip.text(d[3])
+                          .attr("x", xScale(d[1]))
+                          .attr("y", yScale(d[2]))
+
+                  })
+                  .on("mouseout", function(d) {
+                           circles.style("opacity", 1)
+                           tooltip.transition()
+                               .duration(100)
+                               .style("opacity", 0);
+                       })
+
+
+                        svg.append("text")
+                            .attr("class", "x label")
+                            .attr("text-anchor", "end")
+                            .attr("x", w/2)
+                            .attr("y", h - 6)
+                            .text("Hits")
+
+                        svg.append("text")
+                           .attr("transform", "rotate(-90)")
+                           .attr("y", 0)
+                           .attr("x",0 - (h / 2))
+                           .attr("dy", "1em")
+                           .style("text-anchor", "middle")
+                           .text("Homers");
+
+                         svg.append("g")
+                           .attr("class", "axis")
+                           .attr("transform", "translate(0," + (h - padding) + ")")
+                           .call(xAxis)
+
+                         svg.append("g")
+                             .attr("class", "axis")
+                             .attr("transform", "translate(" + padding + ",0)")
+                             .call(yAxis)
+
+              })
+
+            } // End link
+        } // End directive
+        return directive
+      } // End function
+
+
+    function attendanceChart(){
+        var directive = {
+          restrict:'EA',
+            scope: {
+              attendances: '@',
+              years: '@'
+            },
+            link: function(scope,el){
+
+              scope.$watch('attendances', function(){
+
+                  /////////// START CONVERTING STRING DATA INTO INTEGERS////////////
+                    var attend = scope.attendances.replace(/((\[)|(\]))/g,'').split(",")
+                    var year = scope.years.replace(/((\[)|(\]))/g,'').split(",")
+
+                    var attendances = []
+                    var years = []
+                    for(var i=0; i < attend.length; i++){
+                      attendances.push(parseInt(attend[i]))
+                      years.push(parseInt(year[i]))
+                    }
+                    console.log(attendances)
+                    console.log(years)
+
+                    ///////////////////////// END CONVERTING DATA ////////////////////
+
+                    ///////////////////////// DATA FOR SCATTER PLOT //////////////////
+                    var dataset = []
+                    for(var i = 0; i < attendances.length; i ++){
+                      var arr = []
+                      arr.push(attendances[i])
+                      dataset.push(arr)
+                    }
+
+                    console.log(dataset)
 
 
                     // ///////////////////////// END SCATTER PLOT //////////////////////

@@ -1,0 +1,5 @@
+<h1 ng-init="main.getAttendance()">Attendance</h1>
+<h3 ui-sref="table"> Table </h3>
+{{main.attendances}}
+{{main.years}}
+<attendance-chart id="attendances" attendances={{main.attendances}} years={{main.years}} ng-if="main.attendances"></attendance-chart>

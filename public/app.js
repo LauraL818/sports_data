@@ -16,4 +16,9 @@ angular.module('sports', ['ui.router','sportsapi'])
         templateUrl:'partials/d3.html',
         controller:'MainController as main'
       })
+      .state('attendance', {
+        url:'/attendance',
+        templateUrl:'partials/attendance.html',
+        controller:'MainController as main'
+      })
     }
