@@ -6,4 +6,7 @@ var
 apiRouter.route('/stats')
 	.get(scrapeCtrl.getStats)
 
+apiRouter.route('/attendance')
+	.get(scrapeCtrl.getAttendance)
+
 module.exports = apiRouter

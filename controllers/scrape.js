@@ -39,5 +39,22 @@ module.exports = {
         res.json(playerStats)
         // console.log(playerStats)
     })
+  },
+  getAttendance: function(req, res, callback){
+    scrape('http://www.baseball-almanac.com/teams/rockattn.shtml', ['p'], function (error, data) {
+        if(error) throw error;
+        var attendanceStats = []
+        data.forEach(function (element, idx) {
+
+            if(idx >= 41 && idx <= 58) {
+              var attendance = element.children().text()
+              var attendanceNumber = attendance.replace(",", "")
+              attendanceStats.push({
+                attendance: parseInt(attendanceNumber)
+              })
+          }
+        })
+        res.json(attendanceStats)
+    })
   }
 }

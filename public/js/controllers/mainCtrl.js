@@ -46,6 +46,12 @@
       })
     }
 
+    vm.getAttendance = function(){
+      sportsService.attendance().success(function(results){
+        console.log(results)
+      })
+    }
+
 
   //   vm.getNames = function(){
   //     console.log(vm.names)
